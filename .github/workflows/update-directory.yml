@@ -48,4 +48,4 @@ jobs:
           git add index.html
           git diff --cached --quiet && echo "No changes" && exit 0
           git commit -m "chore: auto-update student directory [skip ci]"
-          git push origin develop
+          git push origin HEAD:develop --force-with-lease
