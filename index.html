@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Git &amp; GitHub Workshop 2026 | Student Directory</title>
+  <link rel="stylesheet" href="assets/style.css"/>
+</head>
+<body>
+
+  <!-- TOP NAV -->
+  <header class="top-nav">
+    <span class="nav-logo">Git &amp; GitHub Workshop 2026</span>
+    <ul class="nav-links">
+      <li><a href="#" class="active">Directory</a></li>
+      <li><a href="#">Resources</a></li>
+      <li><a href="#">Workshop Info</a></li>
+    </ul>
+    <span class="material-symbols-outlined" style="color:var(--on-faint);cursor:pointer">account_circle</span>
+  </header>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-avatar">IU</div>
+      <div class="sidebar-brand-text">
+        <h3>IU Islamabad</h3>
+        <p>Git Workshop '26</p>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#" class="active">
+        <span class="material-symbols-outlined">home</span> Home
+      </a>
+      <a href="#">
+        <span class="material-symbols-outlined">group</span> Students
+      </a>
+      <a href="#">
+        <span class="material-symbols-outlined">code</span> GitHub Guide
+      </a>
+      <a href="#">
+        <span class="material-symbols-outlined">help</span> Help
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <p class="student-count-badge">
+        <span id="sideCount">0</span> Students Joined
+      </p>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="content">
+
+      <!-- Hero -->
+      <section class="hero">
+        <div class="hero-glow"></div>
+        <div class="hero-live">
+          <span class="hero-live-dot"></span>
+          <span id="heroCount">0</span> Students &nbsp;·&nbsp; Live Now
+        </div>
+        <h1>Student <em>Directory</em></h1>
+        <p>Discover and connect with the next generation of software engineers from Iqra University
+           Islamabad mastering version control and open-source collaboration.</p>
+      </section>
+
+      <!-- Search -->
+      <div class="search-wrap">
+        <span class="material-symbols-outlined">search</span>
+        <input id="searchInput" class="search-input"
+               type="text" placeholder="Search by name, roll # or department..." autocomplete="off"/>
+        <span class="search-count" id="searchCount"></span>
+      </div>
+
+      <!-- Card Grid -->
+      <div class="grid" id="grid">
+        <div class="empty-state">
+          <span class="material-symbols-outlined">hourglass_top</span>
+          <p>Loading students...</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>© 2026 Iqra University Islamabad — Developer Student Club</p>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Contact Support</a>
+      <a href="#">GitHub Repo</a>
+    </div>
+  </footer>
+
+  <!-- FAB (mobile) -->
+  <button class="fab">
+    <span class="material-symbols-outlined">add</span>
+  </button>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       HOW IT WORKS:
+       1. Student creates students/their-name.html
+       2. Inside that file is ONE <div class="student" data-...>
+       3. This script reads those data attributes and builds cards
+       4. Admin adds the filename to STUDENT_FILES list below
+       ═══════════════════════════════════════════════════════════ -->
+  <script>
+
+    // ─────────────────────────────────────────────────────────────
+    // STUDENT REGISTRY
+    // When a PR is merged, add the student's filename here.
+    // ─────────────────────────────────────────────────────────────
+    const STUDENT_FILES = [
+      // REGISTRY_START
+      'students/git-testing.html',
+      'students/shehryar.html',
+      'students/testing-github-actions.html',
+      'students/testing-purpose.html',
+      'students/testing-student.html',
+      'students/umar-ahmad-41600.html',
+      'students/umar-final-testing.html',
+      'students/umar-testing-fork.html',
+      // REGISTRY_END
+    ];
+
+    const GRADS = ['grad-1','grad-2','grad-3','grad-4','grad-5','grad-6'];
+
+    // Build one card HTML from a student data object
+    function buildCard(s, i) {
+      const dept   = s.dept   || '';
+      const skills = (s.skills || '').split(',').map(sk => sk.trim()).filter(Boolean);
+      const tags   = [
+        `<span class="tag tag-primary">${dept}</span>`,
+        ...skills.map(sk => `<span class="tag tag-secondary">${sk}</span>`)
+      ].join('');
+
+      return `
+        <div class="card" style="animation-delay:${i * 0.05}s"
+             onclick="window.open('students/${s.filename}','_blank')">
+          <div class="card-top">
+            <div class="avatar ${GRADS[i % GRADS.length]}">${s.initials || '??'}</div>
+            <div class="card-status">
+              <span class="badge-active">Active</span>
+              <span class="badge-semester">${s.semester || ''}</span>
+            </div>
+          </div>
+          <div>
+            <div class="card-name">${s.name || 'Unknown'}</div>
+            <div class="card-roll">Roll #: ${s.roll || ''}</div>
+          </div>
+          <div class="card-tags">${tags}</div>
+          <div class="card-footer">
+            <a class="github-link"
+               href="https://github.com/${s.github || ''}"
+               target="_blank"
+               onclick="event.stopPropagation()">
+              <span class="material-symbols-outlined">link</span> GitHub
+            </a>
+            <span class="card-index">#${String(i + 1).padStart(3, '0')}</span>
+          </div>
+        </div>`;
+    }
+
+    // Render array of students
+    function renderGrid(list) {
+      const grid = document.getElementById('grid');
+      if (!list.length) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <span class="material-symbols-outlined">search_off</span>
+            <p>No students found</p>
+          </div>`;
+        return;
+      }
+      grid.innerHTML = list.map((s, i) => buildCard(s, i)).join('');
+    }
+
+    // Fetch one student file and extract the <div class="student"> data attributes
+    async function fetchStudent(file) {
+      try {
+        const res  = await fetch(file);
+        const html = await res.text();
+        const doc  = new DOMParser().parseFromString(html, 'text/html');
+        const el   = doc.querySelector('.student[data-name]');
+        if (!el) return null;
+        const s = { ...el.dataset };
+        s.filename = file.replace('students/', '');
+        return s;
+      } catch {
+        return null;
+      }
+    }
+
+    // Init
+    let ALL = [];
+
+    (async () => {
+      const results = await Promise.all(STUDENT_FILES.map(fetchStudent));
+      ALL = results.filter(Boolean);
+
+      renderGrid(ALL);
+
+      const n = ALL.length;
+      document.getElementById('heroCount').textContent = n;
+      document.getElementById('sideCount').textContent = n;
+      document.getElementById('searchCount').textContent = `${n} results`;
+
+      // Search
+      document.getElementById('searchInput').addEventListener('input', e => {
+        const q = e.target.value.toLowerCase();
+        const filtered = q
+          ? ALL.filter(s =>
+              (s.name  || '').toLowerCase().includes(q) ||
+              (s.roll  || '').toLowerCase().includes(q) ||
+              (s.dept  || '').toLowerCase().includes(q))
+          : ALL;
+        renderGrid(filtered);
+        document.getElementById('searchCount').textContent = `${filtered.length} results`;
+      });
+    })();
+
+  </script>
+</body>
+</html>

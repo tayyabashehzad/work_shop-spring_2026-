@@ -1,0 +1,59 @@
+name: Update Student Directory
+
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - 'students/**.html'
+
+jobs:
+  update-directory:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: develop
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull latest develop
+        run: |
+          git pull origin develop --rebase
+
+      - name: Update student list in index.html
+        run: |
+          python3 - <<'PYTHON'
+          import re, glob
+
+          with open('index.html', 'r') as f:
+              content = f.read()
+
+          files = sorted(glob.glob('students/*.html'))
+          files = [f for f in files if '_template' not in f]
+          lines = '\n'.join(f"      '{f}'," for f in files)
+
+          pattern = r'(// REGISTRY_START\n).*?(// REGISTRY_END)'
+          replacement = f'// REGISTRY_START\n{lines}\n      // REGISTRY_END'
+          new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
+
+          with open('index.html', 'w') as f:
+              f.write(new_content)
+
+          print(f"Updated: {len(files)} students")
+          PYTHON
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: auto-update student directory"
+          branch: auto/update-directory
+          base: develop
+          title: "chore: auto-update student directory"
+          body: |
+            Automatically updated by GitHub Actions.
+            New student file detected and added to directory.
+          delete-branch: true
