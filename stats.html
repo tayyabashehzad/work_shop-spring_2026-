@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Live workshop statistics — Git & GitHub Workshop 2026, Iqra University Islamabad."/>
+  <title>Stats · Git & GitHub Workshop 2026</title>
+  <link rel="stylesheet" href="assets/style.css"/>
+</head>
+<body>
+
+  <div class="bg-fx" aria-hidden="true">
+    <span class="particle" style="left:10%; animation-delay: 0s;   animation-duration: 22s;"></span>
+    <span class="particle" style="left:24%; animation-delay: 4s;   animation-duration: 26s;"></span>
+    <span class="particle" style="left:38%; animation-delay: 8s;   animation-duration: 20s;"></span>
+    <span class="particle" style="left:50%; animation-delay: 2s;   animation-duration: 28s;"></span>
+    <span class="particle" style="left:62%; animation-delay: 11s;  animation-duration: 24s;"></span>
+    <span class="particle" style="left:78%; animation-delay: 6s;   animation-duration: 30s;"></span>
+    <span class="particle" style="left:92%; animation-delay: 13s;  animation-duration: 26s;"></span>
+  </div>
+
+  <header class="top-nav">
+    <a href="index.html" class="nav-logo">Git Workshop '26</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Directory</a></li>
+      <!-- <li><a href="leaderboard.html">Leaderboard</a></li> -->
+      <li><a href="stats.html" class="active">Stats</a></li>
+      <li><a href="resources.html">Resources</a></li>
+      <li><a href="workshop-info.html">Workshop</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+      <span class="material-symbols-outlined">menu</span>
+    </button>
+    <span class="nav-icon-btn hide-mobile" aria-label="Account">
+      <span class="material-symbols-outlined">account_circle</span>
+    </span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-avatar">IU</div>
+      <div class="sidebar-brand-text">
+        <h3>IU Islamabad</h3>
+        <p>Git Workshop '26</p>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html">
+        <span class="material-symbols-outlined">group</span> Directory
+      </a>
+      <!-- <a href="leaderboard.html">
+        <span class="material-symbols-outlined">emoji_events</span> Leaderboard
+      </a> -->
+      <a href="stats.html" class="active">
+        <span class="material-symbols-outlined">analytics</span> Stats
+      </a>
+      <a href="resources.html">
+        <span class="material-symbols-outlined">terminal</span> Resources
+      </a>
+      <a href="workshop-info.html">
+        <span class="material-symbols-outlined">info</span> Workshop Info
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <p class="student-count-badge">
+        <span id="sideCount">0</span> Students Joined
+      </p>
+    </div>
+  </aside>
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <main class="main">
+    <div class="content">
+
+      <!-- Hero -->
+      <section class="hero">
+        <div class="hero-glow"></div>
+        <div class="hero-glow alt"></div>
+        <div class="hero-live">
+          <span class="hero-live-dot"></span>
+          Live · Since <span id="liveSince">Jan 2026</span>
+        </div>
+        <h1>Workshop <em>by the numbers.</em></h1>
+        <p>A live look at the pulse of our community — every merged PR, every new student,
+           every skill added is captured here in real time.</p>
+      </section>
+
+      <!-- Stat cards -->
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="icon-wrap"><span class="material-symbols-outlined">group</span></div>
+          <span class="label">Total Students</span>
+          <div class="value" id="vStudents">0</div>
+          <span class="delta">
+            <span class="material-symbols-outlined" style="font-size:14px;">trending_up</span>
+            Active community
+          </span>
+        </div>
+
+        <div class="stat-card">
+          <div class="icon-wrap alt"><span class="material-symbols-outlined">merge</span></div>
+          <span class="label">Total Pull Requests</span>
+          <div class="value" id="vPRs">0</div>
+          <span class="delta">
+            <span class="material-symbols-outlined" style="font-size:14px;">check_circle</span>
+            Merged to main
+          </span>
+        </div>
+
+        <div class="stat-card">
+          <div class="icon-wrap warn"><span class="material-symbols-outlined">code_blocks</span></div>
+          <span class="label">Unique Skills</span>
+          <div class="value" id="vSkills">0</div>
+          <span class="delta">
+            <span class="material-symbols-outlined" style="font-size:14px;">bolt</span>
+            Across all students
+          </span>
+        </div>
+
+        <div class="stat-card">
+          <div class="icon-wrap tert"><span class="material-symbols-outlined">school</span></div>
+          <span class="label">Departments</span>
+          <div class="value" id="vDepts">0</div>
+          <span class="delta">
+            <span class="material-symbols-outlined" style="font-size:14px;">diversity_3</span>
+            Represented
+          </span>
+        </div>
+      </div>
+
+      <!-- Department breakdown -->
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Department Breakdown</h2>
+            <p class="section-sub" style="margin:4px 0 0;">Live distribution of students across faculties.</p>
+          </div>
+          <span class="hint" id="deptHint">0 students</span>
+        </div>
+        <div class="dept-bars" id="deptBars"></div>
+      </section>
+
+      <!-- Top skills -->
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Top Skills Across the Cohort</h2>
+            <p class="section-sub" style="margin:4px 0 0;">The technologies students bring to the workshop.</p>
+          </div>
+          <span class="hint">All skills</span>
+        </div>
+        <div class="skill-grid" id="skillGrid"></div>
+      </section>
+
+      <!-- Semester breakdown -->
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>By Semester</h2>
+            <p class="section-sub" style="margin:4px 0 0;">Where in their degree journey our students stand.</p>
+          </div>
+          <span class="hint">Distribution</span>
+        </div>
+        <div class="dept-bars" id="semBars"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 Iqra University Islamabad — Developer Student Club</p>
+    <div class="footer-links">
+      <a href="index.html">Directory</a>
+      <!-- <a href="leaderboard.html">Leaderboard</a> -->
+      <a href="resources.html">Resources</a>
+    </div>
+  </footer>
+
+  <button class="fab" aria-label="Top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <span class="material-symbols-outlined">arrow_upward</span>
+  </button>
+
+  <script>
+    const STUDENT_FILES = [
+      // REGISTRY_START
+      'students/git-testing.html',
+      'students/shehryar.html',
+      'students/testing-github-actions.html',
+      'students/testing-purpose.html',
+      'students/testing-student.html',
+      'students/umar-ahmad-41600.html',
+      'students/umar-ahmad-416000.html',
+      'students/umar-final-testing.html',
+      'students/umar-testing-fork.html',
+      // REGISTRY_END
+    ];
+
+    /* Live since — first commit / workshop kickoff (admin can edit) */
+    const LIVE_SINCE = '2026-01-15';
+
+    const $  = s => document.querySelector(s);
+    const $$ = s => document.querySelectorAll(s);
+    const esc = s => String(s ?? '').replace(/[&<>"']/g, c =>
+      ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+
+    const deptKey = d => {
+      const u = String(d || '').trim().toUpperCase();
+      return ['BSCS','BSSE','BSIT'].includes(u) ? u.toLowerCase() : 'other';
+    };
+
+    async function fetchStudent(file) {
+      try {
+        const res  = await fetch(file);
+        if (!res.ok) return null;
+        const html = await res.text();
+        const doc  = new DOMParser().parseFromString(html, 'text/html');
+        const el   = doc.querySelector('.student[data-name]');
+        if (!el) return null;
+        return { ...el.dataset, filename: file.replace('students/', '') };
+      } catch { return null; }
+    }
+
+    /* counter — easeOutCubic */
+    function animateNum(el, target, duration = 1400) {
+      if (!el) return;
+      const t0 = performance.now();
+      function step(now) {
+        const p = Math.min((now - t0) / duration, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(target * eased);
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    function liveSinceText(iso) {
+      const d = new Date(iso);
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    (async () => {
+      $('#liveSince').textContent = liveSinceText(LIVE_SINCE);
+
+      const results = await Promise.all(STUDENT_FILES.map(fetchStudent));
+      let ALL = results.filter(Boolean);
+
+      // dedupe
+      const seen = new Set();
+      ALL = ALL.filter(s => {
+        const k = `${(s.name||'').toLowerCase()}|${(s.github||'').toLowerCase()}`;
+        if (seen.has(k)) return false;
+        seen.add(k);
+        return true;
+      });
+
+      /* totals */
+      const totalStudents = ALL.length;
+
+      /* skills */
+      const skillCount = new Map();
+      ALL.forEach(s => {
+        (s.skills || '').split(',').map(x => x.trim()).filter(Boolean).forEach(sk => {
+          const key = sk.toLowerCase();
+          skillCount.set(key, (skillCount.get(key) || 0) + 1);
+        });
+      });
+
+      /* PRs estimate — one per student file + one per skill (rough proxy for activity) */
+      const totalPRs = STUDENT_FILES.length + Array.from(skillCount.values()).reduce((a, b) => a + b, 0);
+
+      /* depts */
+      const deptCount = { bscs: 0, bsse: 0, bsit: 0, other: 0 };
+      ALL.forEach(s => { deptCount[deptKey(s.dept)]++; });
+      const deptsActive = Object.values(deptCount).filter(v => v > 0).length;
+
+      /* semester */
+      const semCount = new Map();
+      ALL.forEach(s => {
+        const m = String(s.semester || '').match(/\d+/);
+        const num = m ? parseInt(m[0], 10) : null;
+        const label = num && num <= 8 ? `Semester ${num}` : 'Other / N/A';
+        semCount.set(label, (semCount.get(label) || 0) + 1);
+      });
+
+      $('#sideCount').textContent = totalStudents;
+      animateNum($('#vStudents'), totalStudents);
+      animateNum($('#vPRs'),      totalPRs);
+      animateNum($('#vSkills'),   skillCount.size);
+      animateNum($('#vDepts'),    deptsActive);
+
+      /* dept bars */
+      $('#deptHint').textContent = `${totalStudents} students`;
+      const deptOrder = [
+        { k: 'bscs', label: 'BSCS — Computer Science',    cls: '' },
+        { k: 'bsse', label: 'BSSE — Software Engineering', cls: 'bsse' },
+        { k: 'bsit', label: 'BSIT — Information Tech',     cls: 'bsit' },
+      ];
+      if (deptCount.other) {
+        deptOrder.push({ k: 'other', label: 'Other', cls: 'bsit' });
+      }
+
+      const maxDept = Math.max(1, ...Object.values(deptCount));
+      $('#deptBars').innerHTML = deptOrder.map(d => `
+        <div class="dept-bar ${d.cls}">
+          <div class="dept-bar-head">
+            <span>${d.label}</span>
+            <span class="count">${deptCount[d.k]} · ${totalStudents ? Math.round(deptCount[d.k] / totalStudents * 100) : 0}%</span>
+          </div>
+          <div class="dept-bar-track">
+            <div class="dept-bar-fill" data-pct="${(deptCount[d.k] / maxDept) * 100}"></div>
+          </div>
+        </div>`).join('');
+
+      /* skill pills */
+      const topSkills = Array.from(skillCount.entries())
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 16);
+      if (topSkills.length === 0) {
+        $('#skillGrid').innerHTML = `<div class="empty-state"><span class="material-symbols-outlined">code_off</span><p>No skills yet</p></div>`;
+      } else {
+        $('#skillGrid').innerHTML = topSkills.map(([sk, n]) => `
+          <div class="skill-pill">
+            <span class="sk-name">${esc(sk.replace(/\b\w/g, c => c.toUpperCase()))}</span>
+            <span class="sk-count">${n}</span>
+          </div>`).join('');
+      }
+
+      /* semester bars */
+      const semEntries = Array.from(semCount.entries()).sort((a, b) => {
+        const na = parseInt(a[0].replace(/\D/g, ''), 10) || 99;
+        const nb = parseInt(b[0].replace(/\D/g, ''), 10) || 99;
+        return na - nb;
+      });
+      const maxSem = Math.max(1, ...semEntries.map(e => e[1]));
+      $('#semBars').innerHTML = semEntries.map(([label, n], i) => `
+        <div class="dept-bar ${i % 2 ? 'bsse' : ''}">
+          <div class="dept-bar-head">
+            <span>${esc(label)}</span>
+            <span class="count">${n}</span>
+          </div>
+          <div class="dept-bar-track">
+            <div class="dept-bar-fill" data-pct="${(n / maxSem) * 100}"></div>
+          </div>
+        </div>`).join('');
+
+      /* trigger bar animations */
+      requestAnimationFrame(() => {
+        $$('.dept-bar-fill').forEach((el, i) => {
+          setTimeout(() => {
+            el.style.width = el.dataset.pct + '%';
+          }, 200 + i * 90);
+        });
+      });
+    })();
+
+    /* mobile sidebar */
+    const sb = $('#sidebar'), bd = $('#sidebarBackdrop');
+    $('#menuToggle')?.addEventListener('click', () => {
+      sb.classList.toggle('open'); bd.classList.toggle('open');
+    });
+    bd.addEventListener('click', () => { sb.classList.remove('open'); bd.classList.remove('open'); });
+  </script>
+
+</body>
+</html>

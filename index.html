@@ -3,24 +3,44 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Git &amp; GitHub Workshop 2026 | Student Directory</title>
+  <meta name="description" content="Discover students mastering Git & GitHub at Iqra University Islamabad — Spring 2026 Workshop."/>
+  <title>Student Directory · Git & GitHub Workshop 2026</title>
   <link rel="stylesheet" href="assets/style.css"/>
 </head>
 <body>
 
-  <!-- TOP NAV -->
+  <!-- Animated background -->
+  <div class="bg-fx" aria-hidden="true">
+    <span class="particle" style="left:8%;  animation-delay: 0s;   animation-duration: 22s;"></span>
+    <span class="particle" style="left:18%; animation-delay: 4s;   animation-duration: 26s;"></span>
+    <span class="particle" style="left:28%; animation-delay: 8s;   animation-duration: 20s;"></span>
+    <span class="particle" style="left:42%; animation-delay: 2s;   animation-duration: 28s;"></span>
+    <span class="particle" style="left:55%; animation-delay: 11s;  animation-duration: 24s;"></span>
+    <span class="particle" style="left:68%; animation-delay: 6s;   animation-duration: 30s;"></span>
+    <span class="particle" style="left:78%; animation-delay: 14s;  animation-duration: 22s;"></span>
+    <span class="particle" style="left:88%; animation-delay: 9s;   animation-duration: 26s;"></span>
+    <span class="particle" style="left:95%; animation-delay: 16s;  animation-duration: 32s;"></span>
+  </div>
+
+  <!-- Top Nav -->
   <header class="top-nav">
-    <span class="nav-logo">Git &amp; GitHub Workshop 2026</span>
+    <a href="index.html" class="nav-logo">Git Workshop '26</a>
     <ul class="nav-links">
-      <li><a href="#" class="active">Directory</a></li>
-      <li><a href="#">Resources</a></li>
-      <li><a href="#">Workshop Info</a></li>
+      <li><a href="index.html" class="active">Directory</a></li>
+      <li><a href="stats.html">Stats</a></li>
+      <li><a href="resources.html">Resources</a></li>
+      <li><a href="workshop-info.html">Workshop</a></li>
     </ul>
-    <span class="material-symbols-outlined" style="color:var(--on-faint);cursor:pointer">account_circle</span>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+      <span class="material-symbols-outlined">menu</span>
+    </button>
+    <span class="nav-icon-btn hide-mobile" aria-label="Account">
+      <span class="material-symbols-outlined">account_circle</span>
+    </span>
   </header>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">
       <div class="sidebar-avatar">IU</div>
       <div class="sidebar-brand-text">
@@ -29,17 +49,17 @@
       </div>
     </div>
     <nav class="sidebar-nav">
-      <a href="#" class="active">
-        <span class="material-symbols-outlined">home</span> Home
+      <a href="index.html" class="active">
+        <span class="material-symbols-outlined">group</span> Directory
       </a>
-      <a href="#">
-        <span class="material-symbols-outlined">group</span> Students
+      <a href="stats.html">
+        <span class="material-symbols-outlined">analytics</span> Stats
       </a>
-      <a href="#">
-        <span class="material-symbols-outlined">code</span> GitHub Guide
+      <a href="resources.html">
+        <span class="material-symbols-outlined">terminal</span> Resources
       </a>
-      <a href="#">
-        <span class="material-symbols-outlined">help</span> Help
+      <a href="workshop-info.html">
+        <span class="material-symbols-outlined">info</span> Workshop Info
       </a>
     </nav>
     <div class="sidebar-footer">
@@ -48,70 +68,78 @@
       </p>
     </div>
   </aside>
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
-  <!-- MAIN -->
+  <!-- Main -->
   <main class="main">
     <div class="content">
 
       <!-- Hero -->
       <section class="hero">
         <div class="hero-glow"></div>
+        <div class="hero-glow alt"></div>
         <div class="hero-live">
           <span class="hero-live-dot"></span>
-          <span id="heroCount">0</span> Students &nbsp;·&nbsp; Live Now
+          <span id="heroCount">0</span> Students · Live Now
         </div>
-        <h1>Student <em>Directory</em></h1>
-        <p>Discover and connect with the next generation of software engineers from Iqra University
-           Islamabad mastering version control and open-source collaboration.</p>
+        <h1>The next <em>generation</em><br/>of open-source builders.</h1>
+        <p>Discover and connect with students from Iqra University Islamabad
+           mastering version control, collaboration, and the GitHub workflow — one pull request at a time.</p>
+
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <span class="num" id="hsStudents">0</span>
+            <span class="label">Students</span>
+          </div>
+          <div class="hero-stat">
+            <span class="num" id="hsDepts">0</span>
+            <span class="label">Departments</span>
+          </div>
+          <div class="hero-stat">
+            <span class="num" id="hsSkills">0</span>
+            <span class="label">Skills Tracked</span>
+          </div>
+        </div>
       </section>
 
-      <!-- Search -->
-      <div class="search-wrap">
-        <span class="material-symbols-outlined">search</span>
-        <input id="searchInput" class="search-input"
-               type="text" placeholder="Search by name, roll # or department..." autocomplete="off"/>
-        <span class="search-count" id="searchCount"></span>
-      </div>
-
-      <!-- Card Grid -->
-      <div class="grid" id="grid">
-        <div class="empty-state">
-          <span class="material-symbols-outlined">hourglass_top</span>
-          <p>Loading students...</p>
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <div class="search-wrap">
+          <span class="material-symbols-outlined">search</span>
+          <input id="searchInput" class="search-input"
+                 type="text" placeholder="Search by name, roll #, skill or department..." autocomplete="off"/>
+          <span class="search-count" id="searchCount"></span>
+        </div>
+        <div class="filter-chips" id="filterChips" role="tablist">
+          <button class="chip active" data-dept="all">All <span class="count" id="cAll">0</span></button>
         </div>
       </div>
+
+      <!-- Grid -->
+      <div class="grid" id="grid" aria-live="polite"></div>
 
     </div>
   </main>
 
-  <!-- FOOTER -->
+  <!-- Footer -->
   <footer class="footer">
     <p>© 2026 Iqra University Islamabad — Developer Student Club</p>
     <div class="footer-links">
-      <a href="#">Privacy Policy</a>
-      <a href="#">Contact Support</a>
-      <a href="#">GitHub Repo</a>
+      <a href="resources.html">Resources</a>
+      <a href="workshop-info.html">Workshop Info</a>
+      <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
     </div>
   </footer>
 
-  <!-- FAB (mobile) -->
-  <button class="fab">
-    <span class="material-symbols-outlined">add</span>
+  <!-- FAB -->
+  <button class="fab" aria-label="New entry" onclick="document.getElementById('searchInput').focus()">
+    <span class="material-symbols-outlined">search</span>
   </button>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       HOW IT WORKS:
-       1. Student creates students/their-name.html
-       2. Inside that file is ONE <div class="student" data-...>
-       3. This script reads those data attributes and builds cards
-       4. Admin adds the filename to STUDENT_FILES list below
-       ═══════════════════════════════════════════════════════════ -->
   <script>
-
-    // ─────────────────────────────────────────────────────────────
-    // STUDENT REGISTRY
-    // When a PR is merged, add the student's filename here.
-    // ─────────────────────────────────────────────────────────────
+    /* =====================================================================
+       STUDENT REGISTRY  —  add new files between REGISTRY_START / REGISTRY_END
+       ===================================================================== */
     const STUDENT_FILES = [
       // REGISTRY_START
       'students/Afaq-Ahmed.html',
@@ -149,6 +177,7 @@
       'students/rida-hassan.html',
       'students/saim.raza-recording.html',
       'students/sameer-arshad.html',
+      'students/shahmeer-kamran-44054.html',
       'students/shehryar.html',
       'students/talat-repo-42906.html',
       'students/tariq-jamil.html',
@@ -168,60 +197,108 @@
 
     const GRADS = ['grad-1','grad-2','grad-3','grad-4','grad-5','grad-6'];
 
-    // Build one card HTML from a student data object
+    /* ─────────── helpers ─────────── */
+    const $  = sel => document.querySelector(sel);
+    const $$ = sel => document.querySelectorAll(sel);
+    const esc = s => String(s ?? '').replace(/[&<>"']/g, c =>
+      ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+
+    function debounce(fn, ms = 180) {
+      let t;
+      return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
+    }
+
+    function deptKey(d) {
+      const u = String(d || '').trim().toUpperCase();
+      if (['BSCS','BSSE','BSIT'].includes(u)) return u.toLowerCase();
+      return 'other';
+    }
+
+    /* ─────────── card builder ─────────── */
     function buildCard(s, i) {
-      const dept   = s.dept   || '';
-      const skills = (s.skills || '').split(',').map(sk => sk.trim()).filter(Boolean);
+      const dept   = (s.dept   || '').trim();
+      const skills = (s.skills || '').split(',').map(x => x.trim()).filter(Boolean);
       const tags   = [
-        `<span class="tag tag-primary">${dept}</span>`,
-        ...skills.map(sk => `<span class="tag tag-secondary">${sk}</span>`)
-      ].join('');
+        dept && `<span class="tag tag-primary">${esc(dept)}</span>`,
+        ...skills.map(sk => `<span class="tag tag-secondary">${esc(sk)}</span>`)
+      ].filter(Boolean).join('');
 
       return `
-        <div class="card" style="animation-delay:${i * 0.05}s"
-             onclick="window.open('students/${s.filename}','_blank')">
+        <article class="card" style="animation-delay:${Math.min(i * 0.04, 0.6)}s"
+                 data-dept="${esc(deptKey(dept))}"
+                 onclick="window.open('students/${esc(s.filename)}','_blank')">
           <div class="card-top">
-            <div class="avatar ${GRADS[i % GRADS.length]}">${s.initials || '??'}</div>
+            <div class="avatar ${GRADS[i % GRADS.length]}">${esc(s.initials || (s.name || '??').slice(0,2).toUpperCase())}</div>
             <div class="card-status">
               <span class="badge-active">Active</span>
-              <span class="badge-semester">${s.semester || ''}</span>
+              <span class="badge-semester">${esc(s.semester || '')}</span>
             </div>
           </div>
           <div>
-            <div class="card-name">${s.name || 'Unknown'}</div>
-            <div class="card-roll">Roll #: ${s.roll || ''}</div>
+            <div class="card-name">${esc(s.name || 'Unknown')}</div>
+            <div class="card-roll">Roll #: ${esc(s.roll || '—')}</div>
           </div>
           <div class="card-tags">${tags}</div>
           <div class="card-footer">
             <a class="github-link"
-               href="https://github.com/${s.github || ''}"
-               target="_blank"
+               href="https://github.com/${esc(s.github || '')}"
+               target="_blank" rel="noopener"
                onclick="event.stopPropagation()">
               <span class="material-symbols-outlined">link</span> GitHub
             </a>
             <span class="card-index">#${String(i + 1).padStart(3, '0')}</span>
           </div>
-        </div>`;
+        </article>`;
     }
 
-    // Render array of students
-    function renderGrid(list) {
-      const grid = document.getElementById('grid');
+    function buildSkeleton(n = 6) {
+      const one = `
+        <div class="skel-card">
+          <div class="skel-row">
+            <div class="skel skel-avatar"></div>
+            <div class="skel skel-line sm" style="width:60px;"></div>
+          </div>
+          <div class="skel skel-line lg"></div>
+          <div class="skel skel-line sm"></div>
+          <div class="skel-tags">
+            <div class="skel"></div><div class="skel"></div><div class="skel"></div>
+          </div>
+          <div class="skel-row">
+            <div class="skel skel-line sm" style="width:50px;"></div>
+            <div class="skel skel-line sm" style="width:30px;"></div>
+          </div>
+        </div>`;
+      return Array.from({ length: n }, () => one).join('');
+    }
+
+    /* ─────────── render ─────────── */
+    function render(list) {
+      const grid = $('#grid');
       if (!list.length) {
         grid.innerHTML = `
           <div class="empty-state">
             <span class="material-symbols-outlined">search_off</span>
-            <p>No students found</p>
+            <p>No students match your search</p>
           </div>`;
         return;
       }
-      grid.innerHTML = list.map((s, i) => buildCard(s, i)).join('');
+      grid.innerHTML = list.map(buildCard).join('');
+
+      // mouse-tracked glow
+      $$('.card').forEach(c => {
+        c.addEventListener('mousemove', e => {
+          const r = c.getBoundingClientRect();
+          c.style.setProperty('--mx', `${e.clientX - r.left}px`);
+          c.style.setProperty('--my', `${e.clientY - r.top}px`);
+        });
+      });
     }
 
-    // Fetch one student file and extract the <div class="student"> data attributes
+    /* ─────────── fetch student ─────────── */
     async function fetchStudent(file) {
       try {
         const res  = await fetch(file);
+        if (!res.ok) return null;
         const html = await res.text();
         const doc  = new DOMParser().parseFromString(html, 'text/html');
         const el   = doc.querySelector('.student[data-name]');
@@ -229,39 +306,124 @@
         const s = { ...el.dataset };
         s.filename = file.replace('students/', '');
         return s;
-      } catch {
-        return null;
-      }
+      } catch { return null; }
     }
 
-    // Init
-    let ALL = [];
+    /* ─────────── counters (animated) ─────────── */
+    function animateNum(el, target, duration = 900) {
+      const start = 0;
+      const t0 = performance.now();
+      function step(now) {
+        const p = Math.min((now - t0) / duration, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(start + (target - start) * eased);
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
 
+    /* ─────────── filters ─────────── */
+    let ALL = [];
+    let state = { q: '', dept: 'all' };
+
+    function apply() {
+      const q = state.q.toLowerCase();
+      const filtered = ALL.filter(s => {
+        const matchesQ = !q ||
+          (s.name   || '').toLowerCase().includes(q) ||
+          (s.roll   || '').toLowerCase().includes(q) ||
+          (s.dept   || '').toLowerCase().includes(q) ||
+          (s.skills || '').toLowerCase().includes(q) ||
+          (s.github || '').toLowerCase().includes(q);
+        const matchesD = state.dept === 'all' || deptKey(s.dept) === state.dept;
+        return matchesQ && matchesD;
+      });
+      render(filtered);
+      $('#searchCount').textContent = `${filtered.length} result${filtered.length === 1 ? '' : 's'}`;
+    }
+
+    function buildChips() {
+      const counts = { all: ALL.length, bscs: 0, bsse: 0, bsit: 0, other: 0 };
+      ALL.forEach(s => { counts[deptKey(s.dept)]++; });
+
+      const order = ['all', 'bscs', 'bsse', 'bsit'];
+      if (counts.other) order.push('other');
+
+      const labels = { all: 'All', bscs: 'BSCS', bsse: 'BSSE', bsit: 'BSIT', other: 'Other' };
+      const chips  = $('#filterChips');
+      chips.innerHTML = order.map(k => `
+        <button class="chip ${k === 'all' ? 'active' : ''}" data-dept="${k}">
+          ${labels[k]} <span class="count">${counts[k]}</span>
+        </button>`).join('');
+
+      $('#cAll') && ($('#cAll').textContent = counts.all);
+
+      chips.addEventListener('click', e => {
+        const btn = e.target.closest('.chip');
+        if (!btn) return;
+        $$('#filterChips .chip').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        state.dept = btn.dataset.dept;
+        apply();
+      });
+    }
+
+    /* ─────────── init ─────────── */
     (async () => {
+      $('#grid').innerHTML = buildSkeleton(6);
+
       const results = await Promise.all(STUDENT_FILES.map(fetchStudent));
       ALL = results.filter(Boolean);
 
-      renderGrid(ALL);
+      // dedupe by github + name (in case of test entries)
+      const seen = new Set();
+      ALL = ALL.filter(s => {
+        const k = `${(s.name||'').toLowerCase()}|${(s.github||'').toLowerCase()}`;
+        if (seen.has(k)) return false;
+        seen.add(k);
+        return true;
+      });
 
-      const n = ALL.length;
-      document.getElementById('heroCount').textContent = n;
-      document.getElementById('sideCount').textContent = n;
-      document.getElementById('searchCount').textContent = `${n} results`;
+      const skills = new Set();
+      const depts  = new Set();
+      ALL.forEach(s => {
+        (s.skills || '').split(',').map(x => x.trim()).filter(Boolean).forEach(sk => skills.add(sk.toLowerCase()));
+        if ((s.dept || '').trim()) depts.add((s.dept || '').trim().toUpperCase());
+      });
 
-      // Search
-      document.getElementById('searchInput').addEventListener('input', e => {
-        const q = e.target.value.toLowerCase();
-        const filtered = q
-          ? ALL.filter(s =>
-              (s.name  || '').toLowerCase().includes(q) ||
-              (s.roll  || '').toLowerCase().includes(q) ||
-              (s.dept  || '').toLowerCase().includes(q))
-          : ALL;
-        renderGrid(filtered);
-        document.getElementById('searchCount').textContent = `${filtered.length} results`;
+      animateNum($('#heroCount'),   ALL.length);
+      animateNum($('#hsStudents'),  ALL.length);
+      animateNum($('#hsDepts'),     depts.size);
+      animateNum($('#hsSkills'),    skills.size);
+      $('#sideCount').textContent = ALL.length;
+      $('#searchCount').textContent = `${ALL.length} results`;
+
+      buildChips();
+      apply();
+
+      $('#searchInput').addEventListener('input', debounce(e => {
+        state.q = e.target.value;
+        apply();
+      }, 160));
+
+      // keyboard shortcut
+      document.addEventListener('keydown', e => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+          e.preventDefault();
+          $('#searchInput').focus();
+        }
       });
     })();
 
+    /* ─────────── mobile sidebar ─────────── */
+    const sb = $('#sidebar');
+    const bd = $('#sidebarBackdrop');
+    $('#menuToggle')?.addEventListener('click', () => {
+      sb.classList.toggle('open');
+      bd.classList.toggle('open');
+    });
+    bd.addEventListener('click', () => { sb.classList.remove('open'); bd.classList.remove('open'); });
   </script>
+
 </body>
 </html>
